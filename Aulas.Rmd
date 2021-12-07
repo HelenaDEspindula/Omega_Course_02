@@ -1,0 +1,69 @@
+---
+title: "Curso 02"
+author: "Helena"
+date: "07/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Leitura de dados (tidyverse)
+
+```{r}
+library(tidyverse)
+
+```
+
+```{r}
+library(tidyverse)
+ls("package:tidyverse")
+
+tb <-
+  read_csv2(file = "http://leg.ufpr.br/~walmes/data/renda-idh-alfab.csv",
+            comment = "#")
+str(tb)
+
+tb_gp <-
+  read_tsv(file = "http://leg.ufpr.br/~walmes/data/allgrandprix.txt",
+           locale = locale(date_names = "en"))
+str(tb_gp)
+
+
+tb_ss <-
+  read_fwf(file = "saosilvestre_fwf.txt",
+           col_positions = fwf_widths(c(5, 6, 30, 100), col_names = letters[1:4]))
+str(tb_ss)
+
+
+```
+
+```{r}
+url <- "http://leg.ufpr.br/~walmes/data/euro_football_players.txt"
+
+tb_efp <- read_tsv(file = url, comment = "#", col_names =  TRUE)
+
+glimpse(tb_efp)
+
+str(tb_efp)
+attr(tb_efp, which = "spec") <- NULL
+str(tb_efp)
+
+head(tb_efp)
+
+```
+
+## GGPLOT2
+
+```{r}
+```
+
+```{r}
+```
+
+```{r}
+```
+
+```{r}
+```
