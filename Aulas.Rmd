@@ -11,6 +11,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+No GIT: https://github.com/HelenaDEspindula/Omega_Course_02.git
+
 ## Leitura de dados (tidyverse)
 
 ```{r}
