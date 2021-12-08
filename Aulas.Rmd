@@ -1,0 +1,336 @@
+---
+title: "Curso 02"
+author: "Helena"
+date: "07/12/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Leitura de dados (tidyverse)
+
+```{r}
+library(tidyverse)
+
+```
+
+```{r}
+library(tidyverse)
+ls("package:tidyverse")
+
+tb <-
+  read_csv2(file = "http://leg.ufpr.br/~walmes/data/renda-idh-alfab.csv",
+            comment = "#")
+str(tb)
+
+tb_gp <-
+  read_tsv(file = "http://leg.ufpr.br/~walmes/data/allgrandprix.txt",
+           locale = locale(date_names = "en"))
+str(tb_gp)
+
+
+tb_ss <-
+  read_fwf(file = "saosilvestre_fwf.txt",
+           col_positions = fwf_widths(c(5, 6, 30, 100), col_names = letters[1:4]))
+str(tb_ss)
+
+
+```
+
+```{r}
+url <- "http://leg.ufpr.br/~walmes/data/euro_football_players.txt"
+
+tb_efp <- read_tsv(file = url, comment = "#", col_names =  TRUE)
+
+glimpse(tb_efp)
+
+str(tb_efp)
+attr(tb_efp, which = "spec") <- NULL
+str(tb_efp)
+
+head(tb_efp)
+
+```
+
+## GGPLOT2
+
+<<<<<<< HEAD
+Ver: https://www.rstudio.org/links/data_visualization_cheat_sheet
+
+
+```{r}
+ggplot(data = tb_efp,
+       mapping = aes(x= cm)) +
+  geom_histogram(binwidth = 10)
+
+ggplot(data = tb_efp,
+       mapping = aes(x= cm)) +
+  geom_histogram(bins = 20)
+
+ggplot(data = tb_efp,
+       mapping = aes(x= cm)) +
+  geom_histogram(breaks = seq(155, 210, by = 2.5))
+
+#dados
+#mapeamento
+#estatistica e geometria
+
+
+ggplot(data = tb_efp, 
+       mapping = aes(x= cm)) +
+  geom_histogram(bins = 20,
+                 fill = "orange",
+                 color = "black") +
+  geom_rug() +
+  labs(x = "Altura dos jogadores (cm)",
+       y = "Freq abs",
+       title = "Distrib altura jogadores")
+
+
+
+
+ggplot(data = tb_efp, 
+       mapping = aes(x= cm)) +
+  geom_density( fill = "magenta", alPHa = 0.3) +
+  geom_rug() +
+  labs(x = "Altura dos jogadores (cm)",
+       y = "Freq abs",
+       title = "Densidade")
+
+
+media_tb <- mean(tb_efp$cm, na.rm = TRUE)
+media_tb
+
+
+ggplot(data = tb_efp, 
+       mapping = aes(x= cm)) +
+  geom_density( fill = "magenta", alpha = 0.8) +
+  geom_rug() +
+  geom_vline(xintercept = media_tb) +
+  labs(x = "Altura dos jogadores (cm)",
+       y = "Freq abs",
+       title = "Densidade")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+    geom_histogram(mapping = aes(y = ..density..)) + 
+    geom_density(fill = "green", alpha = 0.3) +
+    geom_rug() +
+    geom_vline(xintercept = media_tb) +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+  geom_density(fill = "green", alpha = 0.3) +
+  geom_histogram(mapping = aes(y = ..density..)) + 
+    geom_rug() +
+    geom_vline(xintercept = media_tb) +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+#feq = densidade / larg.relat
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+    geom_histogram(mapping = aes(y = ..count..)) + 
+    #geom_density(fill = "green") +
+    geom_rug() +
+    geom_vline(xintercept = media_tb, color = "red") +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+mediana_tb <- median(tb_efp$cm, na.rm = TRUE)
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+  stat_ecdf() +
+  geom_rug() +
+  geom_vline(xintercept = mediana_tb, color = "red") +
+  labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+  stat_ecdf() +
+  geom_rug() +
+  geom_hline(yintercept = 0.5, color = "red") +
+  labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+    geom_density(bw = 2) +
+    geom_rug() +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+    geom_density(bw = 1) +
+    geom_rug() +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = cm)) +
+    geom_density(bw = 0.5) +
+    geom_rug() +
+    labs(x = "Altura dos jogadores (cm)",
+         y = "Frequência absoluta",
+         title = "Distribuição da altura dos jogadores")
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = team)) +
+  geom_bar()
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = team)) +
+  geom_bar() +
+  coord_flip()
+
+ggplot(data = tb_efp,
+       mapping = aes(x = reorder(team, team, length))) +
+  geom_bar() +
+  coord_flip()
+
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x = reorder(country, country, length))) +
+  geom_bar() +
+  #geom_text(mapping = aes(x = team, y = ..conut.., label = ..count.., stat = "stat_count")
+  coord_flip()
+
+
+tb_freq <- tb_efp %>%
+  count(team)
+
+tb_freq
+
+ggplot(data = tb_freq,
+       mapping = aes(x = n, y = team)) +
+  geom_col() +
+  geom_text(mapping = aes(label = n),
+            hjust = 0, nudge_x = 0.1)
+
+tb_freq <- tb_efp %>%
+  count(team) %>%
+  mutate(team = reorder(team, n))
+
+tb_freq
+
+ggplot(data = tb_freq,
+       mapping = aes(x = n, y = team)) +
+  geom_col() +
+  geom_text(mapping = aes(label = n),
+            hjust = 0, nudge_x = 0.1)
+
+
+```
+
+```{r}
+
+ggplot(data = tb_efp,
+       mapping = aes(x=cm, y=kg)) +
+  geom_point( color = "blue")
+
+
+tb_efp %>%
+  filter(cm == 180, kg == 72)
+
+ggplot(data = tb_efp,
+       mapping = aes(x=cm, y=kg)) +
+  geom_jitter()
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x=cm, y=kg)) +
+  geom_point() +
+  geom_density2d()
+
+ggplot(data = tb_efp,
+       mapping = aes(x=cm, y=kg)) +
+  geom_bin_2d()
+
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x=team, y=kg)) +
+  geom_boxplot()
+
+
+ggplot(data = tb_efp,
+       mapping = aes(x= reorder(team, kg, median, na.rm = TRUE), y=kg)) +
+  geom_boxplot()
+
+
+
+ggplot(data = filter(tb_efp, team %in% c("Juventus", "Lazio")),
+       mapping = aes(x= reorder(team, kg, median, na.rm = TRUE), y=kg)) +
+  geom_boxplot()
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+
+gg <- ggplot2::ggplot(data = tb_freq,
+       mapping = aes(x = n, y = team)) +
+  geom_col() +
+  geom_text(mapping = aes(label = n),
+            hjust = 0, nudge_x = 0.1)
+
+#ggsave(file = "meugrafico.png")
+#salva o ultimo grafico que vc fez
+
+#ggsave(file = "meugrafico.svg")
+
+apropos("^scale_")
+
+apropos("^geom_")
+
+apropos("^stat_")
+
+```
+
+```{r}
+```
+
+```{r}
+ 
+```
+
+```{r}
+```
